@@ -70,7 +70,8 @@ def request_post(url, payload=None, timeout=16, json=False, jsonify_data=True):
         return(res)
 
  
-def request_get(url, payload):
+
+def request_get(url, payload, parse_json):
     """ Generic function for sending a get request.
 
     :param url: The url to send a get request to.
@@ -87,19 +88,16 @@ def request_get(url, payload):
     response_error = None
     try:
         response = SESSION.get(url, params=payload)
-        print(response.text)
         response.raise_for_status()
+        return response
     except Exception as e:
-        
         response_error = e
     # Return either the raw request object so you can call response.text, response.status_code, response.headers, or response.json()
     # or return the JSON parsed information if you don't care to check the status codes.
-    # if parse_json:
-    #     return response.json(), response_error
-    # else:
-    #     return response, response_error
-
-
+    if parse_json:
+        return response.json(), response_error
+    else:
+        return response, response_error
 
 
 

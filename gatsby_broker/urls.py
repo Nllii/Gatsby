@@ -1,6 +1,6 @@
 
 
-#login
+#login ___________________________________________________________
 def login_url():
     return('https://prod.gatsbyapp.org/api/v1/auth')
 
@@ -12,14 +12,29 @@ def sessiontoken_url():
 
 
 
+# account ___________________________________________________________
+def self_account_url():
+    return('https://prod.gatsbyapp.org/api/v1/profile/self')
+
+
+def portfolio_url(ApexAccount):
+
+    return('https://prod.gatsby.financial/v2/accounts/{0}/portfolio/'.format(ApexAccount))
 
 
 
-
-
-#stocks
+# stocks ___________________________________________________________
 def quotes_url():
-
     return('https://prod.gatsbyapp.org/api/v1/stock/search')
 
 
+
+
+
+
+# orders
+def orders_url(ApexAccount):
+    
+    return('https://prod.gatsby.financial/v2/accounts/{0}/orders/'.format(ApexAccount))
+    # else:
+    #     return('https://api.robinhood.com/orders/')

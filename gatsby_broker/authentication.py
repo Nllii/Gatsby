@@ -26,10 +26,9 @@ def login(username = None, password = None, store_session = True):
     url = login_url()
     if os.path.exists(Path.Path(os.getcwd()) / 'session.toml'):
         session_token = get_session()['response']['token']
-        # print(session_token)
         set_login_state(True)
         update_session('Authorization', 'Bearer {0}'.format(session_token))
-        
+        return session_token
     else:
         login_data = request_post(url, payload= json.dumps(data))
         if store_session is True:
@@ -37,7 +36,6 @@ def login(username = None, password = None, store_session = True):
                 with open(Path.Path(os.getcwd()) / 'session.toml', 'w') as file:
                     toml.dump(login_data, file)
             except:
-
                 print('Could not store session')
         else:
 
@@ -45,7 +43,6 @@ def login(username = None, password = None, store_session = True):
             if os.path.exists(Path.Path(os.getcwd()) / 'session.toml'):
                 os.remove(Path.Path(os.getcwd()) / 'session.toml')
             else:
-                
                 print('No session file found.')
         return login_data
 

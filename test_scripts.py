@@ -8,25 +8,31 @@ id_= credentials['login_']
 
 def test_gatsby_login():
     return_data = gatsby.login(id_['login'], id_['pass'])
-    pprint.pprint(return_data)
+    # pprint.pprint(return_data)
 
 
 
 
-tickers = ["AAPL","AMZN","GOOG","MSFT"]
-def get_quote():
-    for i in tickers:
-        return_data = gatsby.stocks.get_quotes(inputSymbols = i)
-        pprint.pprint(return_data)
+def test_get_account_info():
+    returned_data = gatsby.load_account()
+    pprint.pprint(returned_data.json())
+    
+
+
+def test_load_portfolio():
+    returned_data = gatsby.portfolio()
+    # pprint.pprint(returned_data.json())
 
 
 
 
-def market_buy():
-
-    pass
 
 
+def test_market_order():
+    data = gatsby.market_buy_order(symbol='F', quantity=1,timeInForce='Day',longShort='Long',multiplier=1)
+    print(data)
+    # symbol, quantity, timeInForce='gtc', extendedHours=False, jsonify=True)
+    # pass
 
 
 
@@ -36,4 +42,11 @@ def market_buy():
 
 
 test_gatsby_login()
-get_quote()
+# test_get_account_info()
+# test_load_portfolio()
+test_market_order()
+
+# get_quote()
+
+
+

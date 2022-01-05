@@ -1,14 +1,20 @@
 from gatsby_broker.urls import *
 from gatsby_broker.helper import *
+import toml
+import os
+import pathlib as path
+import json
+
 
 
 
 @login_required
-def market_buy_order(symbol, quantity, timeInForce='gtc', extendedHours=False, jsonify=True):
+def market_buy_order(symbol, quantity, timeInForce='Day', longShort=None, multiplier=None):
     """Submits a market order to be executed immediately.
 
     """ 
-    return order(symbol, quantity, "buy", None, None, timeInForce, extendedHours, jsonify)
+    return order(symbol, quantity, "buy", timeInForce='Day', multiplier = multiplier)
+    # return order(symbol, quantity, "buy", None, None, timeInForce, extendedHours, jsonify)
 
 
 @login_required
@@ -19,28 +25,11 @@ def market_sell_order(symbol, quantity, timeInForce='gtc', extendedHours=False, 
     return order(symbol, quantity, "sell", None, None, timeInForce, extendedHours, jsonify)
 
 
-@login_required
-def limit_buy_order(symbol, quantity, price, timeInForce='gfd', extendedHours=False, jsonify=True):
-    """Submits a limit order to be executed at or after the given time in force.
-
-    """ 
-    return order(symbol, quantity, "buy", price, None, timeInForce, extendedHours, jsonify)
-
-
-@login_required
-def limit_sell_order(symbol, quantity, price, timeInForce='gfd', extendedHours=False, jsonify=True):
-    """Submits a limit order to be executed at or after the given time in force.
-
-    """ 
-    return order(symbol, quantity, "sell", price, None, timeInForce, extendedHours, jsonify)
-
-
-
 
 
 
 @login_required
-def order(symbol, quantity, side, limitPrice=None, stopPrice=None, timeInForce='gtc', extendedHours=False, jsonify=True):
+def order(symbol, quantity, side, timeInForce='Day',longShort = "Long",multiplier=None):
     """A generic order function.
 
     :param symbol: The stock ticker of the stock to purchase.
@@ -51,52 +40,37 @@ def order(symbol, quantity, side, limitPrice=None, stopPrice=None, timeInForce='
         print(message, file=get_output())
         return None
 
-    orderType = "market"
-    trigger = "immediate"
-
+    strategy = "Equity"
     if side == "buy":
         priceType = "ask_price"
     else:
         priceType = "bid_price"
 
-    if limitPrice and stopPrice:
-        price = round_price(limitPrice)
-        stopPrice = round_price(stopPrice)
-        orderType = "limit"
-        trigger = "stop"
-    elif limitPrice:
-        price = round_price(limitPrice)
-        orderType = "limit"
-    elif stopPrice:
-        stopPrice = round_price(stopPrice)
-        if side == "buy":
-            price = stopPrice
-        else:
-            price = None
-        trigger = "stop"
+    load = {
+            "strategy": "Equity",
+            "openClose": "Open",
+            "timeInForce":timeInForce,
+            "quantity": quantity,
+            # "limitContract": False,
+            "legs": [
+                {
+                    "symbol": symbol,
+                    "longShort": longShort,
+                    "multiplier": multiplier
+                }],
+            # "tradeId": False,
+            "paper": False
+
+        }
+    if os.path.exists(path.Path(os.getcwd()) / 'session.toml'):
+        with open(path.Path(os.getcwd()) / 'session.toml') as session_file:
+            session = toml.load(session_file)
+        account_number = session['apex_account'] 
     else:
-        price = round_price(next(iter(get_latest_price(symbol, priceType, extendedHours)), 0.00))
+        pass
+    payload = json.dumps(load)
+    url = orders_url(ApexAccount = account_number)
+    data = request_post(url, payload)
+    return data
 
-
-
-
-
-    # payload = {
-    #     'account': load_account_profile(info='url'),
-    #     'instrument': get_instruments_by_symbols(symbol, info='url')[0],
-    #     'symbol': symbol,
-    #     'price': price,
-    #     'quantity': quantity,
-    #     'ref_id': str(uuid4()),
-    #     'type': orderType,
-    #     'stop_price': stopPrice,
-    #     'time_in_force': timeInForce,
-    #     'trigger': trigger,
-    #     'side': side,
-    #     'extended_hours': extendedHours
-    # }
-
-    # url = orders_url()
-    # data = request_post(url, payload, jsonify_data=jsonify)
-
-    # return(data)
+    
