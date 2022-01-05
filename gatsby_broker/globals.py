@@ -10,7 +10,10 @@ LOGGED_IN = False
 SESSION = Session()
 SESSION.headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json;charset=UTF-8',    
+    'Content-Type': 'application/json;charset=UTF-8',
+    'client-version': '2.30.5-IOS',
     }
+
+
 
 OUTPUT=sys.stdout

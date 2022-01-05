@@ -59,6 +59,7 @@ def request_post(url, payload=None, timeout=16, json=False, jsonify_data=True):
                 'Content-Type', 'application/json;charset=UTF-8')
         else:
             res = SESSION.post(url, data=payload, timeout=timeout)
+            # print(res.text)
         data = res.json()
     except Exception as message:
         print("Error in request_post: {0}".format(message), file=get_output())
@@ -68,11 +69,37 @@ def request_post(url, payload=None, timeout=16, json=False, jsonify_data=True):
     else:
         return(res)
 
-    # 'Accept': 'application/json',
-    # 'Content-Type': 'application/json;charset=UTF-8',
-    # 'client-device-model': 'Apple iPhone X',
-    # 'client-version': '2.30.5-IOS',
-    # 'client-device-os-version': '14.0',
+ 
+def request_get(url, payload):
+    """ Generic function for sending a get request.
+
+    :param url: The url to send a get request to.
+    :type url: str
+    :param payload: Dictionary of parameters to pass to the url. Will append the requests url as url/?key1=value1&key2=value2.
+    :type payload: dict
+    :param parse_json: Requests serializes data in the JSON format. Set this parameter true to parse the data to a dictionary \
+        using the JSON format.
+    :type parse_json: bool
+    :returns: Returns a tuple where the first entry is the response and the second entry will be an error message from the \
+        get request. If there was no error then the second entry in the tuple will be None. The first entry will either be \
+        the raw request response or the parsed JSON response based on whether parse_json is True or not.
+    """
+    response_error = None
+    try:
+        response = SESSION.get(url, params=payload)
+        print(response.text)
+        response.raise_for_status()
+    except Exception as e:
+        
+        response_error = e
+    # Return either the raw request object so you can call response.text, response.status_code, response.headers, or response.json()
+    # or return the JSON parsed information if you don't care to check the status codes.
+    # if parse_json:
+    #     return response.json(), response_error
+    # else:
+    #     return response, response_error
+
+
 
 
 
@@ -107,3 +134,79 @@ def round_price(price):
 
     return returnPrice
 
+
+
+
+def filter_data(data, info):
+    """Takes the data and extracts the value for the keyword that matches info.
+
+    :param data: The data returned by request_get.
+    :type data: dict or list
+    :param info: The keyword to filter from the data.
+    :type info: str
+    :returns:  A list or string with the values that correspond to the info keyword.
+
+    """
+    if (data == None):
+        return(data)
+    elif (data == [None]):
+        return([])
+    elif (type(data) == list):
+        if (len(data) == 0):
+            return([])
+        compareDict = data[0]
+        noneType = []
+    elif (type(data) == dict):
+        compareDict = data
+        noneType = None
+
+    if info is not None:
+        if info in compareDict and type(data) == list:
+            return([x[info] for x in data])
+        elif info in compareDict and type(data) == dict:
+            return(data[info])
+        else:
+            print(error_argument_not_key_in_dictionary(info), file=get_output())
+            return(noneType)
+    else:
+        return(data)
+
+
+
+def inputs_to_set(inputSymbols):
+    """Takes in the parameters passed to *args and puts them in a set and a list.
+    The set will make sure there are no duplicates, and then the list will keep
+    the original order of the input.
+
+    :param inputSymbols: A list, dict, or tuple of stock tickers.
+    :type inputSymbols: list or dict or tuple or str
+    :returns:  A list of strings that have been capitalized and stripped of white space.
+
+    """
+
+    symbols_list = []
+    symbols_set = set()
+
+    def add_symbol(symbol):
+        symbol = symbol.upper().strip()
+        if symbol not in symbols_set:
+            symbols_set.add(symbol)
+            symbols_list.append(symbol)
+
+    if type(inputSymbols) is str:
+        add_symbol(inputSymbols)
+    elif type(inputSymbols) is list or type(inputSymbols) is tuple or type(inputSymbols) is set:
+        inputSymbols = [comp for comp in inputSymbols if type(comp) is str]
+        for item in inputSymbols:
+            add_symbol(item)
+
+    return(symbols_list)
+
+
+def error_argument_not_key_in_dictionary(keyword):
+    return('Error: The keyword "{0}" is not a key in the dictionary.'.format(keyword))
+
+
+
+def error_ticker_does_not_exist(ticker):
+    return('Warning: "{0}" is not a valid stock ticker. It is being ignored'.format(ticker))

@@ -13,6 +13,18 @@ def test_gatsby_login():
 
 
 
+tickers = ["AAPL","AMZN","GOOG","MSFT"]
+def get_quote():
+    for i in tickers:
+        return_data = gatsby.stocks.get_quotes(inputSymbols = i)
+        pprint.pprint(return_data)
+
+
+
+
+def market_buy():
+
+    pass
 
 
 
@@ -20,6 +32,8 @@ def test_gatsby_login():
 
 
 
-if __name__ == "__main__":
-    test_gatsby_login()
-    print("loging works")
+
+
+
+test_gatsby_login()
+get_quote()

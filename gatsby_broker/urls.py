@@ -5,10 +5,21 @@ def login_url():
     return('https://prod.gatsbyapp.org/api/v1/auth')
 
 
+# to avoid the multiple logins:
+def sessiontoken_url():
+    return('https://prod.gatsbyapp.org/api/v1/auth/sessionToken')
 
-# def orders_url(orderID=None):
-#     if orderID:
-#         return('https://api.robinhood.com/orders/{0}/'.format(orderID))
-#     else:
-#         return('https://api.robinhood.com/orders/')
+
+
+
+
+
+
+
+
+#stocks
+def quotes_url():
+
+    return('https://prod.gatsbyapp.org/api/v1/stock/search')
+
 

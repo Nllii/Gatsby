@@ -4,11 +4,38 @@ from gatsby_broker.helper import *
 
 
 @login_required
-def order_buy_market(symbol, quantity, timeInForce='gtc', extendedHours=False, jsonify=True):
+def market_buy_order(symbol, quantity, timeInForce='gtc', extendedHours=False, jsonify=True):
     """Submits a market order to be executed immediately.
 
     """ 
     return order(symbol, quantity, "buy", None, None, timeInForce, extendedHours, jsonify)
+
+
+@login_required
+def market_sell_order(symbol, quantity, timeInForce='gtc', extendedHours=False, jsonify=True):
+    """Submits a market order to be executed immediately.
+
+    """ 
+    return order(symbol, quantity, "sell", None, None, timeInForce, extendedHours, jsonify)
+
+
+@login_required
+def limit_buy_order(symbol, quantity, price, timeInForce='gfd', extendedHours=False, jsonify=True):
+    """Submits a limit order to be executed at or after the given time in force.
+
+    """ 
+    return order(symbol, quantity, "buy", price, None, timeInForce, extendedHours, jsonify)
+
+
+@login_required
+def limit_sell_order(symbol, quantity, price, timeInForce='gfd', extendedHours=False, jsonify=True):
+    """Submits a limit order to be executed at or after the given time in force.
+
+    """ 
+    return order(symbol, quantity, "sell", price, None, timeInForce, extendedHours, jsonify)
+
+
+
 
 
 
