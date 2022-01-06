@@ -8,3 +8,4 @@ I got tired of waiting. https://www.hyrumslaw.com
 
 
 
+# TODO: Paper trading and options chain endpoints. 

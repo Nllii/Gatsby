@@ -10,7 +10,8 @@ import json
 
 @login_required
 def market_buy_order(symbol, quantity, timeInForce='Day', longShort=None, multiplier=None):
-    """Submits a market order to be executed immediately.
+    """
+    Submits a market order to be executed immediately.
 
     """ 
     return order(symbol, quantity, "Open", timeInForce='Day', multiplier = multiplier)
@@ -18,8 +19,19 @@ def market_buy_order(symbol, quantity, timeInForce='Day', longShort=None, multip
 
 
 @login_required
+def paper_buy(symbol, quantity, timeInForce='Day', longShort=None, multiplier=None):
+    """
+    Submits a paper buy order to be executed immediately.
+
+    """
+    return order(symbol, quantity, "Open", timeInForce='Day', multiplier = multiplier)
+
+
+
+@login_required
 def market_sell_order(symbol, quantity, timeInForce='Day', multiplier = None):
-    """Submits a market order to be executed immediately.
+    """
+    Submits a market order to be executed immediately.
 
     """ 
     return order(symbol, quantity, "Close", timeInForce='Day', multiplier = multiplier)
@@ -27,9 +39,19 @@ def market_sell_order(symbol, quantity, timeInForce='Day', multiplier = None):
 
 
 
+@login_required
+def paper_sell(symbol, quantity, timeInForce='Day', longShort=None, paper=True):
+    """
+    Submits a paper sell order to be executed immediately.
+
+    """
+    return order(symbol, quantity, timeInForce='Day', longShort=None, paper=True)
+    
+
+
 
 @login_required
-def order(symbol, quantity, side, timeInForce='Day',longShort = "Long",multiplier=None):
+def order(symbol, quantity, side, timeInForce='Day',longShort = "Long",multiplier=None,paper=None):
     """A generic order function.
 
     :param symbol: The stock ticker of the stock to purchase.
