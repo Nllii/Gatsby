@@ -18,12 +18,13 @@ def test_gatsby_login():
 
 def test_get_account_info():
     returned_data = gatsby.load_account()
-    pprint.pprint(returned_data.json())
+    # pprint.pprint(returned_data.json())
     
 
 
 def test_load_portfolio():
     returned_data = gatsby.portfolio()
+    # pprint.pprint(returned_data)
     # pprint.pprint(returned_data.json())
 
 
@@ -36,7 +37,6 @@ def test_market_buy():
 
 
 own_ticker = ["AAPL"]
-
 def test_market_sell():
     for i in own_ticker:
         data = gatsby.market_sell_order(symbol=i , quantity=1,timeInForce='Day',multiplier=1)
@@ -45,6 +45,7 @@ def test_market_sell():
 
 
 def test_get_quotes():
+
     for i in test_tickers:
         data = gatsby.get_quotes(inputSymbols=i)
         print(data)
@@ -68,10 +69,11 @@ def test_historical_quotes():
 
 
 test_gatsby_login() 
-# test_historical_quotes()
-# test_get_quotes()
 # test_get_account_info()
 # test_load_portfolio()
+
+# test_historical_quotes()
+# test_get_quotes()
 # test_market_buy()
 # test_market_sell()
 

@@ -26,5 +26,6 @@ def portfolio():
                 account_info = account_detail.json()
                 apex_account['apex_account'] = account_info['response']['apexAccount']
                 toml.dump(apex_account, open(Path.Path(os.getcwd()) / 'session.toml', 'w'))
+                return apex_account
 
     
