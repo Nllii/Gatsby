@@ -1,6 +1,7 @@
 ###  Gatsby Broker, not to be confused with the Web Framework.
-api for https://www.trygatsby.com 
 
+Not supported and not maintained python package for  trygatsby  https://www.trygatsby.com
+I got tired of waiting. https://www.hyrumslaw.com
 
 
 

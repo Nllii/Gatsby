@@ -29,23 +29,28 @@ def test_load_portfolio():
 
 
 
-
-
-def test_market_order():
+def test_market_buy():
     for i in test_tickers:
         data = gatsby.market_buy_order(symbol=i , quantity=1,timeInForce='Day',longShort='Short',multiplier=1)
         print(data)
 
 
+own_ticker = ["AAPL"]
+
+def test_market_sell():
+    for i in own_ticker:
+        data = gatsby.market_sell_order(symbol=i , quantity=1,timeInForce='Day',multiplier=1)
+        print(data)
 
 
-def get_quotes():
+
+def test_get_quotes():
     for i in test_tickers:
         data = gatsby.get_quotes(inputSymbols=i)
         print(data)
 
 
-def historical_quotes():
+def test_historical_quotes():
     TimeFrame = ["D1" ,"W1","M1",'M3', "Y1","ALL"]
     for tickers in test_tickers:
         for time_frame in TimeFrame:
@@ -63,11 +68,12 @@ def historical_quotes():
 
 
 test_gatsby_login() 
-# historical_quotes()
-# get_quotes()
+# test_historical_quotes()
+# test_get_quotes()
 # test_get_account_info()
 # test_load_portfolio()
-# test_market_order()
+# test_market_buy()
+# test_market_sell()
 
 
 

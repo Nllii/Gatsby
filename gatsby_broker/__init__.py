@@ -1,5 +1,6 @@
 from .orders import (
-    market_buy_order
+    market_buy_order,
+    market_sell_order
     
 )
 
@@ -7,7 +8,7 @@ from .orders import (
 
 from .account import (
     load_account,
-    portfolio,
+    portfolio
 
 )
 
@@ -20,7 +21,7 @@ from .authentication import login
 
 from .stocks import (
     get_quotes,
-    get_historical_quotes,
+    get_historical_quotes
     
     
     

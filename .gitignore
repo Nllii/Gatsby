@@ -2,3 +2,5 @@ __pycache__
 gatsby_keys.toml
 session.toml
 curl.py
+setup.py
+README.rst

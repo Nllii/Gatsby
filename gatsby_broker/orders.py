@@ -13,16 +13,16 @@ def market_buy_order(symbol, quantity, timeInForce='Day', longShort=None, multip
     """Submits a market order to be executed immediately.
 
     """ 
-    return order(symbol, quantity, "buy", timeInForce='Day', multiplier = multiplier)
+    return order(symbol, quantity, "Open", timeInForce='Day', multiplier = multiplier)
     # return order(symbol, quantity, "buy", None, None, timeInForce, extendedHours, jsonify)
 
 
 @login_required
-def market_sell_order(symbol, quantity, timeInForce='gtc', extendedHours=False, jsonify=True):
+def market_sell_order(symbol, quantity, timeInForce='Day', multiplier = None):
     """Submits a market order to be executed immediately.
 
     """ 
-    return order(symbol, quantity, "sell", None, None, timeInForce, extendedHours, jsonify)
+    return order(symbol, quantity, "Close", timeInForce='Day', multiplier = multiplier)
 
 
 
@@ -41,14 +41,14 @@ def order(symbol, quantity, side, timeInForce='Day',longShort = "Long",multiplie
         return None
 
     # strategy = "Equity"
-    if side == "buy":
-        priceType = "ask_price"
-    else:
-        priceType = "bid_price"
+    # if side == "buy":
+    #     priceType = "ask_price"
+    # else:
+    #     priceType = "bid_price"
 
     load = {
             "strategy": "Equity",
-            "openClose": "Open",
+            "openClose": side,
             "timeInForce":timeInForce,
             "quantity": quantity,
             # "limitContract": False,
