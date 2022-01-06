@@ -71,7 +71,7 @@ def request_post(url, payload=None, timeout=16, json=False, jsonify_data=True):
 
  
 
-def request_get(url, payload, parse_json):
+def request_get(url, payload, parse_json= None):
     """ Generic function for sending a get request.
 
     :param url: The url to send a get request to.

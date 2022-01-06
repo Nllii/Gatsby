@@ -18,4 +18,11 @@ from .account import (
 from .authentication import login
 
 
-from .stocks import (get_quotes)
+from .stocks import (
+    get_quotes,
+    get_historical_quotes,
+    
+    
+    
+    
+    )

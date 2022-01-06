@@ -29,6 +29,17 @@ def quotes_url():
 
 
 
+def marketData(ticker):
+
+    return('https://prod.gatsbyapp.org/api/v1/stock/{0}/marketData'.format(ticker))
+
+
+
+
+
+
+
+
 
 
 

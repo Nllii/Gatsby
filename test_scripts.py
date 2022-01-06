@@ -5,6 +5,9 @@ import toml
 
 credentials = toml.load(Path("Gatsby_keys.toml"))
 id_= credentials['login_']
+test_tickers = ["ABUS","EFOI","NUZE","ARQT","VRCA","OBSV","RETA","HRTX","FENC","OMER","SPRO","BYSI","AQST","LEGN"]
+
+
 
 def test_gatsby_login():
     return_data = gatsby.login(id_['login'], id_['pass'])
@@ -29,10 +32,26 @@ def test_load_portfolio():
 
 
 def test_market_order():
-    data = gatsby.market_buy_order(symbol='F', quantity=1,timeInForce='Day',longShort='Long',multiplier=1)
-    print(data)
-    # symbol, quantity, timeInForce='gtc', extendedHours=False, jsonify=True)
-    # pass
+    for i in test_tickers:
+        data = gatsby.market_buy_order(symbol=i , quantity=1,timeInForce='Day',longShort='Short',multiplier=1)
+        print(data)
+
+
+
+
+def get_quotes():
+    for i in test_tickers:
+        data = gatsby.get_quotes(inputSymbols=i)
+        print(data)
+
+
+def historical_quotes():
+    TimeFrame = ["D1" ,"W1","M1",'M3', "Y1","ALL"]
+    for tickers in test_tickers:
+        for time_frame in TimeFrame:
+            print(time_frame)
+            data = gatsby.get_historical_quotes(inputSymbols=tickers, timeFrame=time_frame)
+            pprint.pprint(data.json())
 
 
 
@@ -41,12 +60,15 @@ def test_market_order():
 
 
 
-test_gatsby_login()
+
+
+test_gatsby_login() 
+# historical_quotes()
+# get_quotes()
 # test_get_account_info()
 # test_load_portfolio()
-test_market_order()
+# test_market_order()
 
-# get_quote()
 
 
 

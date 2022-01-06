@@ -6,12 +6,8 @@ import json
 @login_required
 def get_quotes(inputSymbols):
     
-    """Takes any number of stock tickers and returns information pertaining to its price.
-    tickers = ["AAPL","AMZN","GOOG","MSFT"]
-    def get_quote():
-    for i in tickers:
-        return_data = gatsby.stocks.get_quotes(inputSymbols = i)    
-        print(return_data)
+    """
+    Takes any number of stock tickers and returns information pertaining to its price.
 
     """
     symbols = inputs_to_set(inputSymbols)
@@ -25,6 +21,21 @@ def get_quotes(inputSymbols):
 
 
 
+@login_required
+def get_historical_quotes(inputSymbols,timeFrame):
+    """
+    This uses the MarketData. Specify the ticker symbol and the function will return the latest price. 
+    TimeFrame = ["D1" ,"W1","M1",'M3', "Y1","ALL"]
+
+
+    """
+    symbols = inputs_to_set(inputSymbols)
+    _get_symbol = symbols.pop()
+    url = marketData(_get_symbol)
+    load_tickers = {'timeframe': timeFrame}
+    data = request_get(url, load_tickers)
+    return data
+    
 
 
 

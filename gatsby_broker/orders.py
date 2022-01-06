@@ -37,10 +37,10 @@ def order(symbol, quantity, side, timeInForce='Day',longShort = "Long",multiplie
     try:
         symbol = symbol.upper().strip()
     except AttributeError as message:
-        print(message, file=get_output())
+        print("call this function in a loop")
         return None
 
-    strategy = "Equity"
+    # strategy = "Equity"
     if side == "buy":
         priceType = "ask_price"
     else:
