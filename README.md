@@ -1,4 +1,4 @@
-### My account is suspended. Can't support my risk. LOL, If a broker is against monitoring your account. They have something to hide. 
+### My account is suspended.
 ~~Gatsby Broker, not to be confused with the Web Framework.~~
 
 Not supported and not maintained python package for  trygatsby  https://www.trygatsby.com
