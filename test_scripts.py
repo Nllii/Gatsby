@@ -5,7 +5,7 @@ import toml
 
 credentials = toml.load(Path("Gatsby_keys.toml"))
 id_= credentials['login_']
-test_tickers = ["ABUS","EFOI","NUZE","ARQT","VRCA","OBSV","RETA","HRTX","FENC","OMER","SPRO","BYSI","AQST","LEGN"]
+test_tickers = ["ABUS","EFOI","NUZE"]
 
 
 
@@ -63,12 +63,30 @@ def test_historical_quotes():
 
 
 
+def draft_buy():
+    for i in test_tickers:
+        data = gatsby.paper_buy(symbol=i , quantity=1,timeInForce='Day',longShort='Short',multiplier=1)
+        print(data)
+    # pass
+
+
+
+def Cancel_All_PapperOders():
+    data = gatsby.cancel_draft()
+    # for i in test_tickers:
+    #     print(data)
+
+    pass
+
+
 
 
 
 
 
 test_gatsby_login() 
+# Cancel_All_PapperOders()
+# draft_buy()
 # test_get_account_info()
 # test_load_portfolio()
 
